@@ -10,7 +10,7 @@ class AddTickerWidget extends StatefulWidget {
 }
 
 class _AddTickerFormState extends State<AddTickerWidget> {
-  late Future<Ticker> tickersFuture;
+  // late Future<Ticker> tickersFuture;
 
   final _formKey = GlobalKey<FormState>();
   final _tickerController = TextEditingController();
@@ -48,16 +48,15 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                       child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              tickersFuture = _tickerRepository.getDetail(
-                                  _tickerController.value.toString());
+                              // tickersFuture = _tickerRepository.getDetail(_tickerController.value.toString());
                             }
                           },
                           child: const Text("Buscar"))),
-                  FutureBuilder<Ticker>(
-                      future: tickersFuture,
-                      builder: (context, snapshot) {
-                        return Padding(padding: const EdgeInsets.only(top: 8));
-                      }),
+                  // FutureBuilder<Ticker>(
+                  //     future: tickersFuture,
+                  //     builder: (context, snapshot) {
+                  //       return Padding(padding: const EdgeInsets.only(top: 8));
+                  //     }),
                   Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: ElevatedButton(
