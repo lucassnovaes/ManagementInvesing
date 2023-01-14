@@ -11,10 +11,10 @@ class AddTickerWidget extends StatefulWidget {
 }
 
 class _AddTickerFormState extends State<AddTickerWidget> {
-  final Future<Ticker> tickersFuture = TickersRepository().getDetail('doe');
+  late Future<Ticker> tickersFuture;
 
   final _formKey = GlobalKey<FormState>();
-  final _tickerController = TextEditingController();
+  final _symbolController = TextEditingController();
   final _tickerRepository = TickersRepository();
   late Ticker insertedTicker;
 
@@ -35,7 +35,7 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormField(
-                      controller: _tickerController,
+                      controller: _symbolController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Insira o codigo da ação';
@@ -43,13 +43,15 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                         return null;
                       },
                       decoration: const InputDecoration(
-                          labelText: 'Ticker', hintText: 'Codigo Ação')),
+                          labelText: 'Codigo da ação',
+                          hintText: 'Codigo Ação')),
                   Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // tickersFuture = _tickerRepository.getDetail(_tickerController.value.toString());
+                              tickersFuture = _tickerRepository.getDetail(
+                                  _symbolController.value.toString());
                             }
                           },
                           child: const Text("Buscar"))),
@@ -62,17 +64,13 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                       }),
                   Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              // final language = Language(
-                              //     _tickerController.text,
-                              //     _descriptionController.text,
-                              //     _imageController.text);
-                              // Navigator.pop(context, language);
-                            }
-                          },
-                          child: const Text("Adicionar")))
+                      child: Align(
+                          alignment: Alignment.center,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {}
+                              },
+                              child: const Text("Favoritar"))))
                 ],
               ))),
     );

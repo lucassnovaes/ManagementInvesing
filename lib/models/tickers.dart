@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 class Ticker {
@@ -12,7 +13,7 @@ class Ticker {
   final double regularMarketChange; //"regularMarketChange": -0.01999998,
   final double
       regularMarketChangePercent; //"regularMarketChangePercent": -0.6557371,
-  final String
+  final DateTime
       regularMarketTime; //"regularMarketTime": "2023-01-11T21:07:44.000Z",
   final int marketCap; //"marketCap": 20627390464,
   final int regularMarketVolume; //"regularMarketVolume": 170364500,
@@ -84,7 +85,7 @@ class Ticker {
         value['regularMarketDayRange'],
         value['regularMarketChange'],
         value['regularMarketChangePercent'],
-        value['regularMarketTime'],
+        DateTime.parse(value['regularMarketTime']),
         value['marketCap'],
         value['regularMarketVolume'],
         value['regularMarketPreviousClose'],

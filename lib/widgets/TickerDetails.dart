@@ -1,6 +1,11 @@
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:managementinvesting/models/tickers.dart';
+import 'package:managementinvesting/utils/custom_formaters.dart';
+import 'package:managementinvesting/utils/custom_styles.dart';
 import 'package:managementinvesting/utils/custom_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:managementinvesting/widgets/tickerInfo.dart';
 
 class TickerDatailsWidget extends StatelessWidget {
   const TickerDatailsWidget({Key? key, required this.ticker}) : super(key: key);
@@ -9,88 +14,57 @@ class TickerDatailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return //ListView(children: [dividerList(), dividerList()]),
-        Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.query_stats),
+    return Card(
+        margin: const EdgeInsets.all(10.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+            Widget>[
+          ListTile(
+              leading: SvgPicture.network(ticker.logourl),
               title: Text(ticker.symbol),
               subtitle: Text(ticker.longName),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Símbolo de negociação da ação ou empresa: ${ticker.shortName}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text('Nome completo da ação: ${ticker.longName}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text('Moeda: ${ticker.currency}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Preço de fechamento da ação: ${ticker.regularMarketPrice}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Preço mais alto negociado negociados hoje: ${ticker.regularMarketDayHigh}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Preço mais baixo negociado negociados hoje: ${ticker.regularMarketDayLow}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Faixa de preços negociados negociados hoje: ${ticker.regularMarketDayRange}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Mudança no preço da ação ou empresa desde o fechamento anterior: ${ticker.regularMarketChange}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Porcentagem de mudança no preço da ação desde o fechamento anterior: ${ticker.regularMarketChangePercent}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Horário do último fechamento da ação: ${ticker.regularMarketTime}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child:
-                        Text('Capitalização de mercado: ${ticker.marketCap}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Volume negociado: ${ticker.regularMarketVolume}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Preço de fechamento anterior: ${ticker.regularMarketPreviousClose}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child:
-                        Text('Preço de abertura: ${ticker.regularMarketOpen}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Volume médio diário negociado 10 dias: ${ticker.averageDailyVolume10Day}')),
-                Padding(
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text(
-                        'Volume médio diário negociado 3 meses: ${ticker.averageDailyVolume3Month}')),
-                //PaddingText('logourl: ${ticker.logourl}')
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+              trailing: Text(
+                  formatCurrency(ticker.currency, ticker.regularMarketPrice),
+                  style: tickerPriceDecoration)),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 0, 22),
+              child: Column(children: [
+                TickerInfoWidget(
+                    detail:
+                        'Preço de fechamento: ${formatCurrency(ticker.currency, ticker.regularMarketPrice)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Preço mais alto hoje: ${formatCurrency(ticker.currency, ticker.regularMarketDayHigh)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Preço mais baixo hoje: ${formatCurrency(ticker.currency, ticker.regularMarketDayLow)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Faixa negociada hoje: ${ticker.regularMarketDayRange}'),
+                TickerInfoWidget(
+                    detail:
+                        'Variação ultimo fechamento: ${formatCurrency(ticker.currency, ticker.regularMarketChange)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Hora fechamento : ${DateFormat.Hms().format(ticker.regularMarketTime).toString()}'),
+                TickerInfoWidget(
+                  detail: 'Capitalização: ${ticker.marketCap}',
+                ),
+                TickerInfoWidget(
+                  detail: 'Volume negociado: ${ticker.regularMarketVolume}',
+                ),
+                TickerInfoWidget(
+                    detail:
+                        'Preço de fechamento anterior: ${formatCurrency(ticker.currency, ticker.regularMarketPreviousClose)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Preço de abertura: ${formatCurrency(ticker.currency, ticker.regularMarketOpen)}'),
+                TickerInfoWidget(
+                    detail:
+                        'Volume ultimos 10 dias: ${ticker.averageDailyVolume10Day}'),
+                TickerInfoWidget(
+                    detail:
+                        'Volume ultimos 3 meses: ${ticker.averageDailyVolume3Month}')
+              ]))
+        ]));
   }
 }
