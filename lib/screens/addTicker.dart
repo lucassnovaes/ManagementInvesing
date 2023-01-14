@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:managementinvesting/data/tickersRepository.dart';
 import 'package:managementinvesting/models/tickers.dart';
+import 'package:managementinvesting/widgets/TickerDetails.dart';
 
 class AddTickerWidget extends StatefulWidget {
   const AddTickerWidget({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class AddTickerWidget extends StatefulWidget {
 }
 
 class _AddTickerFormState extends State<AddTickerWidget> {
-  // late Future<Ticker> tickersFuture;
+  final Future<Ticker> tickersFuture = TickersRepository().getDetail('doe');
 
   final _formKey = GlobalKey<FormState>();
   final _tickerController = TextEditingController();
@@ -52,11 +53,13 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                             }
                           },
                           child: const Text("Buscar"))),
-                  // FutureBuilder<Ticker>(
-                  //     future: tickersFuture,
-                  //     builder: (context, snapshot) {
-                  //       return Padding(padding: const EdgeInsets.only(top: 8));
-                  //     }),
+                  FutureBuilder<Ticker>(
+                      future: tickersFuture,
+                      builder: (context, snapshot) {
+                        return TickerDatailsWidget(
+                          ticker: snapshot.data!,
+                        );
+                      }),
                   Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: ElevatedButton(
