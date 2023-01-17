@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:managementinvesting/screens/addTicker.dart';
+import 'package:managementinvesting/Login/login_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,8 +17,8 @@ class MyApp extends StatelessWidget {
       //home: const MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
       routes: {
-        '/': (context) => AddTickerWidget()
-        //'/form': (context) => AddTickerFormWidget()
+        '/': (context) => LoginPage(),
+        '/form': (context) => AddTickerWidget()
       },
     );
   }
