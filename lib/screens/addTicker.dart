@@ -11,16 +11,27 @@ class AddTickerWidget extends StatefulWidget {
 }
 
 class _AddTickerFormState extends State<AddTickerWidget> {
-  late Future<Ticker> tickersFuture;
+  Ticker? ticker;
 
   final _formKey = GlobalKey<FormState>();
   final _symbolController = TextEditingController();
-  final _tickerRepository = TickersRepository();
   late Ticker insertedTicker;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  void _getTicker(String id) async {
+    TickersRepository().getDetail(id).then((value) => setState(() {
+          ticker = value;
+        }));
+  }
+
+  void _cleanTicker() {
+    setState(() {
+      ticker = null;
+    });
   }
 
   @override
@@ -34,7 +45,9 @@ class _AddTickerFormState extends State<AddTickerWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: MediaQuery.of(context).viewInsets.top),
                   TextFormField(
+                      onTap: _cleanTicker,
                       controller: _symbolController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -49,19 +62,16 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                       padding: const EdgeInsets.only(top: 8),
                       child: ElevatedButton(
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             if (_formKey.currentState!.validate()) {
-                              tickersFuture = _tickerRepository.getDetail(
-                                  _symbolController.value.toString());
+                              _getTicker(_symbolController.value.text);
                             }
                           },
                           child: const Text("Buscar"))),
-                  FutureBuilder<Ticker>(
-                      future: tickersFuture,
-                      builder: (context, snapshot) {
-                        return TickerDatailsWidget(
-                          ticker: snapshot.data!,
-                        );
-                      }),
+                  if (ticker != null)
+                    TickerDatailsWidget(
+                      ticker: ticker!,
+                    ),
                   Padding(
                       padding: const EdgeInsets.only(top: 8),
                       child: Align(

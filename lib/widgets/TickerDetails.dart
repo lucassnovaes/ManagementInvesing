@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:managementinvesting/models/tickers.dart';
 import 'package:managementinvesting/utils/custom_formaters.dart';
 import 'package:managementinvesting/utils/custom_styles.dart';
-import 'package:managementinvesting/utils/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:managementinvesting/widgets/tickerInfo.dart';
 
