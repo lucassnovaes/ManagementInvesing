@@ -5,13 +5,16 @@ import 'package:sqflite/sqflite.dart';
 
 class FollowingRepository {
   Future<Database> _getDatabase() async {
-    return openDatabase(
-      join(await getDatabasesPath(), DATABASE_NAME),
+    String path = join(await getDatabasesPath(), DATABASE_NAME);
+    Database db = await openDatabase(
+      path,
       onCreate: (db, version) {
         return db.execute(SCRIPT_FOLLOWING_CREATE_TABLE);
       },
       version: 1,
     );
+
+    return db;
   }
 
   Future create(String symbol, int userId) async {
@@ -20,7 +23,7 @@ class FollowingRepository {
 
       await db.insert(
         TABLE_FOLLOWING_NAME,
-        {'symbol': symbol, 'userId': userId},
+        {'symbol': symbol, 'usersId': userId},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (ex) {
