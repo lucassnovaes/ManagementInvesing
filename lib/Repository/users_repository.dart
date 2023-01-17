@@ -19,7 +19,7 @@ class UsersRepository {
       final Database db = await _getDatabase();
 
       await db.insert(
-        TABLE_NAME,
+        TABLE_USERS_NAME,
         model.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
@@ -32,7 +32,7 @@ class UsersRepository {
   Future<bool> getUserLogin(UserModel user) async {
     try {
       final Database db = await _getDatabase();
-      final List<Map<String, dynamic>> maps = await db.query(TABLE_NAME,
+      final List<Map<String, dynamic>> maps = await db.query(TABLE_USERS_NAME,
           where: "user = ? and password = ?",
           whereArgs: [user.user, user.password]);
 
