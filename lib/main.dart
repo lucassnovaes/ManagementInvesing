@@ -18,7 +18,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LoginPage(),
-        '/form': (context) => AddTickerWidget()
+        '/form': (context) => AddTickerWidget(
+              userId: 69,
+            )
       },
     );
   }

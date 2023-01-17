@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:managementinvesting/data/tickersRepository.dart';
+import 'package:managementinvesting/data/tickersClient.dart';
+import 'package:managementinvesting/Repository/fallowing_repository.dart';
 import 'package:managementinvesting/models/tickers.dart';
 import 'package:managementinvesting/widgets/TickerDetails.dart';
 
 class AddTickerWidget extends StatefulWidget {
-  const AddTickerWidget({Key? key}) : super(key: key);
+  final int userId;
+
+  const AddTickerWidget({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<AddTickerWidget> createState() => _AddTickerFormState();
@@ -23,7 +26,7 @@ class _AddTickerFormState extends State<AddTickerWidget> {
   }
 
   void _getTicker(String id) async {
-    TickersRepository().getDetail(id).then((value) => setState(() {
+    TickersClient().getDetail(id).then((value) => setState(() {
           ticker = value;
         }));
   }
@@ -32,6 +35,12 @@ class _AddTickerFormState extends State<AddTickerWidget> {
     setState(() {
       ticker = null;
     });
+  }
+
+  void _fallowTicker() {
+    FollowingRepository()
+        .create(ticker!.symbol, widget.userId)
+        .then((value) => {});
   }
 
   @override
@@ -77,9 +86,7 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                       child: Align(
                           alignment: Alignment.center,
                           child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {}
-                              },
+                              onPressed: ticker != null ? _fallowTicker : null,
                               child: const Text("Favoritar"))))
                 ],
               ))),
