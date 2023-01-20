@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _senha = TextEditingController();
   final _repository = UsersRepository();
   final _usersModel = UserModel();
-  bool resultLogin = false;
+  int resultLogin = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                     autofocus: true,
                     controller: _senha,
+                    obscureText: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(color: Colors.blue, fontSize: 30),
                     decoration: InputDecoration(
@@ -57,12 +58,14 @@ class _LoginPageState extends State<LoginPage> {
                       _usersModel.user = _usuario.text,
                       _usersModel.password = _senha.text,
                       resultLogin = await _repository.getUserLogin(_usersModel),
-                      if (resultLogin)
+                      if (resultLogin > 0)
                         {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeUserPage()))
+                                builder: (context) =>
+                                    HomeUserPage(userId: resultLogin),
+                              ))
                         }
                       else
                         {

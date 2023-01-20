@@ -81,13 +81,6 @@ class _AddTickerFormState extends State<AddTickerWidget> {
                     TickerDatailsWidget(
                       ticker: ticker!,
                     ),
-                  Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: ElevatedButton(
-                              onPressed: ticker != null ? _fallowTicker : null,
-                              child: const Text("Favoritar"))))
                 ],
               ))),
     );
