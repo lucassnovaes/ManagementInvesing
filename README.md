@@ -1,6 +1,6 @@
-# managementinvesting
+# ManagementInvesting
 
-A new Flutter project.
+Projeto desenvolvido em Flutter, durante a matéria de Mobile - MBA Engenharia de Software.
 
 ## Getting Started
 
